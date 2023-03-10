@@ -20,6 +20,8 @@ Asteroids::Asteroids(int argc, char *argv[])
 {
 	mLevel = 0;
 	mAsteroidCount = 0;
+	mStartBoolean = false;
+	
 }
 
 /** Destructor. */
@@ -32,21 +34,33 @@ Asteroids::~Asteroids(void)
 /** Start an asteroids game. */
 void Asteroids::Start()
 {
-	// Create a shared pointer for the Asteroids game object - DO NOT REMOVE
-	shared_ptr<Asteroids> thisPtr = shared_ptr<Asteroids>(this);
+	if (mStartBoolean == false) {
+		// Create a shared pointer for the Asteroids game object - DO NOT REMOVE
+		shared_ptr<Asteroids> thisPtr = shared_ptr<Asteroids>(this);
 
-	// Add this class as a listener of the game world
-	mGameWorld->AddListener(thisPtr.get());
+		// Add this class as a listener of the game world
+		mGameWorld->AddListener(thisPtr.get());
 
-	// Add this as a listener to the world and the keyboard
-	mGameWindow->AddKeyboardListener(thisPtr);
+		// Add this as a listener to the world and the keyboard
+		mGameWindow->AddKeyboardListener(thisPtr);
 
-	// Add a score keeper to the game world
-	mGameWorld->AddListener(&mScoreKeeper);
+		// Add a score keeper to the game world
+		mGameWorld->AddListener(&mScoreKeeper);
 
-	// Add this class as a listener of the score keeper
-	mScoreKeeper.AddListener(thisPtr);
+		// Add this class as a listener of the score keeper
+		mScoreKeeper.AddListener(thisPtr);
 
+		// Add this class as a listener of the player
+		mPlayer.AddListener(thisPtr);
+
+		CreateStartGUI();
+		mStartTrigger = true;
+	}else{
+	
+
+	
+
+	 
 	// Create an ambient light to show sprite textures
 	GLfloat ambient_light[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	GLfloat diffuse_light[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -57,20 +71,22 @@ void Asteroids::Start()
 	Animation *explosion_anim = AnimationManager::GetInstance().CreateAnimationFromFile("explosion", 64, 1024, 64, 64, "explosion_fs.png");
 	Animation *asteroid1_anim = AnimationManager::GetInstance().CreateAnimationFromFile("asteroid1", 128, 8192, 128, 128, "asteroid1_fs.png");
 	Animation *spaceship_anim = AnimationManager::GetInstance().CreateAnimationFromFile("spaceship", 128, 128, 128, 128, "spaceship_fs.png");
+	
+		// Create a spaceship and add it to the world
+		mGameWorld->AddObject(CreateSpaceship());
+		// Create some asteroids and add them to the world
+		CreateAsteroids(10);
 
-	// Create a spaceship and add it to the world
-	mGameWorld->AddObject(CreateSpaceship());
-	// Create some asteroids and add them to the world
-	CreateAsteroids(10);
+		//Create the GUI
+		CreateGUI();
 
-	//Create the GUI
-	CreateGUI();
+		
 
-	// Add a player (watcher) to the game world
-	mGameWorld->AddListener(&mPlayer);
+		// Add a player (watcher) to the game world
+		mGameWorld->AddListener(&mPlayer);
 
-	// Add this class as a listener of the player
-	mPlayer.AddListener(thisPtr);
+		mStartTrigger = false;
+	}
 
 	// Start the game
 	GameSession::Start();
@@ -91,6 +107,15 @@ void Asteroids::OnKeyPressed(uchar key, int x, int y)
 	{
 	case ' ':
 		mSpaceship->Shoot();
+		break;
+	case 'p':
+		mGameStartLabel->SetVisible(false);
+		mStartBoolean = true;
+		if (mStartTrigger == true) {
+			Start();
+			
+		}
+
 		break;
 	default:
 		break;
@@ -210,6 +235,22 @@ void Asteroids::CreateAsteroids(const uint num_asteroids)
 	}
 }
 
+
+void Asteroids::CreateStartGUI()
+{
+	// Create a new GUILabel and wrap it up in a shared_ptr
+	mGameStartLabel = shared_ptr<GUILabel>(new GUILabel("Press P to Start the Game!"));
+	// Set the horizontal alignment of the label to GUI_HALIGN_CENTER
+	mGameStartLabel->SetHorizontalAlignment(GUIComponent::GUI_HALIGN_CENTER);
+	// Set the vertical alignment of the label to GUI_VALIGN_MIDDLE
+	mGameStartLabel->SetVerticalAlignment(GUIComponent::GUI_VALIGN_MIDDLE);
+	// Set the visibility of the label to false (hidden)
+	mGameStartLabel->SetVisible(true);
+	// Add the GUILabel to the GUIContainer  
+	shared_ptr<GUIComponent> game_start_component
+		= static_pointer_cast<GUIComponent>(mGameStartLabel);
+	mGameDisplay->GetContainer()->AddComponent(game_start_component, GLVector2f(0.5f, 0.5f));
+}
 void Asteroids::CreateGUI()
 {
 	// Add a (transparent) border around the edge of the game display

@@ -1,0 +1,27 @@
+﻿cl : linha de comando  warning D9035: opção 'Gm' foi preterida e será removida em uma versão futura
+  TextureManager.cpp
+  Texture.cpp
+  Sprite.cpp
+  Shape.cpp
+  MovementController.cpp
+  ImageManager.cpp
+  Image.cpp
+  GUILabel.cpp
+  GUIIcon.cpp
+  GUIContainer.cpp
+  GUIComponent.cpp
+  GLVector.cpp
+  GlutWindow.cpp
+  GlutSession.cpp
+  GameWorld.cpp
+  GameWindow.cpp
+  GameSession.cpp
+  GameObjectType.cpp
+  GameObject.cpp
+  GameDisplay.cpp
+  Gerando Código...
+  Compilando...
+  AnimationManager.cpp
+  Animation.cpp
+  Gerando Código...
+  Engine.vcxproj -> C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\lib\Engine.lib
