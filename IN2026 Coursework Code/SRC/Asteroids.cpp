@@ -11,6 +11,7 @@
 #include "BoundingSphere.h"
 #include "GUILabel.h"
 #include "Explosion.h"
+#include "Life.h"
 
 // PUBLIC INSTANCE CONSTRUCTORS ///////////////////////////////////////////////
 
@@ -75,8 +76,8 @@ void Asteroids::Start()
 		// Create a spaceship and add it to the world
 		mGameWorld->AddObject(CreateSpaceship());
 		// Create some asteroids and add them to the world
-		CreateAsteroids(10);
-
+		CreateAsteroids(3);
+		CreateLife(3);
 		//Create the GUI
 		CreateGUI();
 
@@ -170,6 +171,13 @@ void Asteroids::OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object)
 		{ 
 			SetTimer(500, START_NEXT_LEVEL); 
 		}
+	}if (object->GetType() == GameObjectType("Life"))
+	{
+		shared_ptr<GameObject> explosion = CreateExplosion();
+		explosion->SetPosition(object->GetPosition());
+		explosion->SetRotation(object->GetRotation());
+		mGameWorld->AddObject(explosion);
+	 
 	}
 }
 
@@ -336,3 +344,12 @@ shared_ptr<GameObject> Asteroids::CreateExplosion()
 
 
 
+void Asteroids::CreateLife(const uint num_life)
+{
+	for (uint i = 0; i < num_life; i++) {
+		shared_ptr<GameObject> life = make_shared<Life>();
+		life->SetBoundingShape(make_shared<BoundingSphere>(life->GetThisPtr(), 10.0f));
+
+		mGameWorld->AddObject(life);
+	}
+}

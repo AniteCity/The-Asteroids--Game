@@ -1,8 +1,4 @@
-﻿cl : linha de comando  warning D9035: opção 'Gm' foi preterida e será removida em uma versão futura
-  Asteroids.cpp
-C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\Asteroids.cpp(114,24): warning C4805: '==': mistura não segura de tipo 'uint' e tipo 'bool' em operação
-Asteroid.obj : warning LNK4075: ignorando '/EDITANDCONTINUE' devido a especificação '/SAFESEH'
-  Asteroids.vcxproj -> C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\bin\Asteroids.exe
+﻿  Asteroids.vcxproj -> C:\Users\anite\Downloads\games tech tast 2\IN2026 Coursework Code tast 2 try\IN2026 Coursework Code - try\bin\Asteroids.exe
   ..\..\assets\asteroid.shape
   ..\..\assets\asteroid1_fs.png
   ..\..\assets\bullet.shape

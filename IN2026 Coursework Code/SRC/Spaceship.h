@@ -3,6 +3,7 @@
 
 #include "GameUtil.h"
 #include "GameObject.h"
+#include "Asteroid.h"
 #include "Shape.h"
 
 class Spaceship : public GameObject
@@ -26,6 +27,10 @@ public:
 
 	bool CollisionTest(shared_ptr<GameObject> o);
 	void OnCollision(const GameObjectList &objects);
+
+	void OnCollisionWithAsteroid(Asteroid& asteroid);
+
+	void OnCollisionWithLife(Life& life);
 
 private:
 	float mThrust;

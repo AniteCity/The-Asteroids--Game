@@ -64,6 +64,8 @@ private:
 	void CreateGUI();
 	void CreateStartGUI();
 	void CreateAsteroids(const uint num_asteroids);
+	void CreateLife(const uint num_life);
+	bool CollisionTest(shared_ptr<GameObject> o);
 	shared_ptr<GameObject> CreateExplosion();
 	
 	const static uint SHOW_GAME_OVER = 0;

@@ -3,6 +3,8 @@
 #include "Bullet.h"
 #include "Spaceship.h"
 #include "BoundingSphere.h"
+#include "Life.h"
+#include "Asteroid.h"
 
 using namespace std;
 
@@ -94,13 +96,41 @@ void Spaceship::Shoot(void)
 
 bool Spaceship::CollisionTest(shared_ptr<GameObject> o)
 {
-	if (o->GetType() != GameObjectType("Asteroid")) return false;
+
+	if (GetType() == o->GetType()) return false;
 	if (mBoundingShape.get() == NULL) return false;
 	if (o->GetBoundingShape().get() == NULL) return false;
 	return mBoundingShape->CollisionTest(o->GetBoundingShape());
 }
 
-void Spaceship::OnCollision(const GameObjectList &objects)
+void Spaceship::OnCollision(const GameObjectList& objects)
 {
-	mWorld->FlagForRemoval(GetThisPtr());
+	for (auto& object : objects)
+	{
+		if (auto asteroid = dynamic_cast<Asteroid*>(object.get()))
+		{
+			OnCollisionWithAsteroid(*asteroid);
+		}
+		else if (auto life = dynamic_cast<Life*>(object.get()))
+		{
+			OnCollisionWithLife(*life);
+		}
+		// add other cases for other types of game objects as needed
+	}
+}
+
+void Spaceship::OnCollisionWithAsteroid(Asteroid& asteroid)
+{
+	// handle collision with another asteroid
+ mWorld->FlagForRemoval(GetThisPtr());
+ mWorld->FlagForRemoval(asteroid.GetThisPtr());
+
+
+}
+
+void Spaceship::OnCollisionWithLife(Life& life)
+{
+	// handle collision with a life object
+ mWorld->FlagForRemoval(GetThisPtr());
+ mWorld->FlagForRemoval(life.GetThisPtr());
 }
