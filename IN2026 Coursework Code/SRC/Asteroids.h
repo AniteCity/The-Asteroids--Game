@@ -38,6 +38,8 @@ public:
 
 	void OnPlayerKilled(int lives_left);
 
+	void OnPlayerLifeKilled(int lives_left);
+
 	// Declaration of IGameWorldListener interface //////////////////////////////
 
 	void OnWorldUpdated(GameWorld* world) {}
@@ -52,6 +54,7 @@ private:
 	shared_ptr<GUILabel> mScoreLabel;
 	shared_ptr<GUILabel> mGameStartLabel;
 	shared_ptr<GUILabel> mLivesLabel;
+	shared_ptr<GUILabel> mLivesPopUpLabel;
 	shared_ptr<GUILabel> mGameOverLabel;
 
 	uint mLevel;
@@ -61,6 +64,7 @@ private:
 
 	void ResetSpaceship();
 	shared_ptr<GameObject> CreateSpaceship();
+	void CreateLifePopUpGUI();
 	void CreateGUI();
 	void CreateStartGUI();
 	void CreateAsteroids(const uint num_asteroids);
@@ -71,6 +75,8 @@ private:
 	const static uint SHOW_GAME_OVER = 0;
 	const static uint START_NEXT_LEVEL = 1;
 	const static uint CREATE_NEW_PLAYER = 2;
+	const static uint SHOW_LIFE_POP_UP = 3;
+	const static uint HIDE_LIFE_POP_UP = 4;
 
 	ScoreKeeper mScoreKeeper;
 	Player mPlayer;

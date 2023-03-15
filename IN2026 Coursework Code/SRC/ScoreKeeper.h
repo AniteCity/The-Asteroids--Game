@@ -19,8 +19,11 @@ public:
 
 	void OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object)
 	{
-		if (object->GetType() == GameObjectType("Asteroid")) {
+		if (object->GetType() == GameObjectType("Life")) {
  			mScore += 10;
+			FireScoreChanged();
+		}else if (object->GetType() == GameObjectType("Asteroid")) {
+ 			mScore += 5;
 			FireScoreChanged();
 		}
 	}

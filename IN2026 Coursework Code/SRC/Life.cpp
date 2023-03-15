@@ -73,5 +73,6 @@ void Life::OnCollisionWithBullet(Bullet& bullet)
 	// handle collision with a life object
 	mWorld->FlagForRemoval(GetThisPtr());
 	mWorld->FlagForRemoval(bullet.GetThisPtr());
+
 }
 

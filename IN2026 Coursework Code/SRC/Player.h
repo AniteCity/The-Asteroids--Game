@@ -24,6 +24,11 @@ public:
 			mLives -= 1;
 			FirePlayerKilled();
 		}
+		else if (object->GetType() == GameObjectType("Life")) {
+			mLives += 1;
+			FirePlayerLIFE();
+
+		}
 	}
 
 	void AddListener(shared_ptr<IPlayerListener> listener)
@@ -37,6 +42,14 @@ public:
 		for (PlayerListenerList::iterator lit = mListeners.begin();
 			lit != mListeners.end(); ++lit) {
 			(*lit)->OnPlayerKilled(mLives);
+		}
+	}
+		void FirePlayerLIFE()
+	{
+		// Send message to all listeners
+		for (PlayerListenerList::iterator lit = mListeners.begin();
+			lit != mListeners.end(); ++lit) {
+			(*lit)->OnPlayerLifeKilled(mLives);
 		}
 	}
 

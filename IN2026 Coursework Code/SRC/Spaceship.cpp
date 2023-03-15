@@ -131,6 +131,6 @@ void Spaceship::OnCollisionWithAsteroid(Asteroid& asteroid)
 void Spaceship::OnCollisionWithLife(Life& life)
 {
 	// handle collision with a life object
- mWorld->FlagForRemoval(GetThisPtr());
+ //mWorld->FlagForRemoval(GetThisPtr());
  mWorld->FlagForRemoval(life.GetThisPtr());
 }

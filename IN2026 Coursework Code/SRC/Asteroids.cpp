@@ -80,7 +80,7 @@ void Asteroids::Start()
 		CreateLife(3);
 		//Create the GUI
 		CreateGUI();
-
+		 
 		
 
 		// Add a player (watcher) to the game world
@@ -130,13 +130,23 @@ void Asteroids::OnSpecialKeyPressed(int key, int x, int y)
 	switch (key)
 	{
 	// If up arrow key is pressed start applying forward thrust
-	case GLUT_KEY_UP: mSpaceship->Thrust(10); break;
+	case GLUT_KEY_UP:
+		
+		SetTimer(1000, HIDE_LIFE_POP_UP); 
+		mSpaceship->Thrust(10); break;
+
 	// If left arrow key is pressed start rotating anti-clockwise
-	case GLUT_KEY_LEFT: mSpaceship->Rotate(90); break;
+	case GLUT_KEY_LEFT:
+
+		SetTimer(1000, HIDE_LIFE_POP_UP);
+		mSpaceship->Rotate(90); break;
 	// If right arrow key is pressed start rotating clockwise
-	case GLUT_KEY_RIGHT: mSpaceship->Rotate(-90); break;
+	case GLUT_KEY_RIGHT: 
+
+		SetTimer(1000, HIDE_LIFE_POP_UP);
+		mSpaceship->Rotate(-90); break;
 	// Default case - do nothing
-	default: break;
+	default: ; break;
 	}
 }
 
@@ -177,6 +187,10 @@ void Asteroids::OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object)
 		explosion->SetPosition(object->GetPosition());
 		explosion->SetRotation(object->GetRotation());
 		mGameWorld->AddObject(explosion);
+
+		
+		SetTimer(100, SHOW_LIFE_POP_UP);
+		
 	 
 	}
 }
@@ -201,6 +215,14 @@ void Asteroids::OnTimer(int value)
 	if (value == SHOW_GAME_OVER)
 	{
 		mGameOverLabel->SetVisible(true);
+	}
+	if (value == SHOW_LIFE_POP_UP)
+	{
+		mLivesPopUpLabel->SetVisible(true);
+	}
+	if (value == HIDE_LIFE_POP_UP)
+	{
+		mLivesPopUpLabel->SetVisible(false);
 	}
 
 }
@@ -259,6 +281,8 @@ void Asteroids::CreateStartGUI()
 		= static_pointer_cast<GUIComponent>(mGameStartLabel);
 	mGameDisplay->GetContainer()->AddComponent(game_start_component, GLVector2f(0.5f, 0.5f));
 }
+
+ 
 void Asteroids::CreateGUI()
 {
 	// Add a (transparent) border around the edge of the game display
@@ -292,6 +316,19 @@ void Asteroids::CreateGUI()
 	shared_ptr<GUIComponent> game_over_component
 		= static_pointer_cast<GUIComponent>(mGameOverLabel);
 	mGameDisplay->GetContainer()->AddComponent(game_over_component, GLVector2f(0.5f, 0.5f));
+
+	// Create a new GUILabel and wrap it up in a shared_ptr
+	mLivesPopUpLabel = shared_ptr<GUILabel>(new GUILabel("LIFE POWER UP!!! +1"));
+	// Set the horizontal alignment of the label to GUI_HALIGN_CENTER
+	mLivesPopUpLabel->SetHorizontalAlignment(GUIComponent::GUI_HALIGN_CENTER);
+	// Set the vertical alignment of the label to GUI_VALIGN_MIDDLE
+	mLivesPopUpLabel->SetVerticalAlignment(GUIComponent::GUI_VALIGN_MIDDLE);
+	// Set the visibility of the label to false (hidden)
+	mLivesPopUpLabel->SetVisible(false);
+	// Add the GUILabel to the GUIContainer  
+	shared_ptr<GUIComponent> lifes_pop_up_component
+		= static_pointer_cast<GUIComponent>(mLivesPopUpLabel);
+	mGameDisplay->GetContainer()->AddComponent(lifes_pop_up_component, GLVector2f(0.5f, 0.5f));
 
 }
 
@@ -327,6 +364,19 @@ void Asteroids::OnPlayerKilled(int lives_left)
 	{
 		SetTimer(500, SHOW_GAME_OVER);
 	}
+}
+void Asteroids::OnPlayerLifeKilled(int lives_left)
+{
+	 
+
+	// Format the lives left message using an string-based stream
+	std::ostringstream msg_stream;
+	msg_stream << "Lives: " << lives_left;
+	// Get the lives left message as a string
+	std::string lives_msg = msg_stream.str();
+	mLivesLabel->SetText(lives_msg);
+
+
 }
 
 shared_ptr<GameObject> Asteroids::CreateExplosion()
