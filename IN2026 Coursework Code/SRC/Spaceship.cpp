@@ -5,6 +5,7 @@
 #include "BoundingSphere.h"
 #include "Life.h"
 #include "Asteroid.h"
+#include "Shield.h"
 
 using namespace std;
 
@@ -40,6 +41,7 @@ void Spaceship::Update(int t)
 {
 	// Call parent update function
 	GameObject::Update(t);
+
 }
 
 /** Render this spaceship. */
@@ -114,6 +116,9 @@ void Spaceship::OnCollision(const GameObjectList& objects)
 		else if (auto life = dynamic_cast<Life*>(object.get()))
 		{
 			OnCollisionWithLife(*life);
+		}else if (auto shield = dynamic_cast<Shield*>(object.get()))
+		{
+			OnCollisionWithShield(*shield);
 		}
 		// add other cases for other types of game objects as needed
 	}
@@ -133,4 +138,10 @@ void Spaceship::OnCollisionWithLife(Life& life)
 	// handle collision with a life object
  //mWorld->FlagForRemoval(GetThisPtr());
  mWorld->FlagForRemoval(life.GetThisPtr());
+}
+void Spaceship::OnCollisionWithShield(Shield& shield)
+{
+	// handle collision with a life object
+ //mWorld->FlagForRemoval(GetThisPtr());
+ mWorld->FlagForRemoval(shield.GetThisPtr());
 }

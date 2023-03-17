@@ -46,16 +46,20 @@ public:
 	void OnObjectAdded(GameWorld* world, shared_ptr<GameObject> object) {}
 	void OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object);
 
+	void SpaceShipSprite();
+
 	// Override the default implementation of ITimerListener ////////////////////
 	void OnTimer(int value);
 
 private:
 	shared_ptr<Spaceship> mSpaceship;
+	shared_ptr<Spaceship> mShieldSpaceship;
 	shared_ptr<GUILabel> mScoreLabel;
 	shared_ptr<GUILabel> mGameStartLabel;
 	shared_ptr<GUILabel> mLivesLabel;
 	shared_ptr<GUILabel> mLivesPopUpLabel;
 	shared_ptr<GUILabel> mGameOverLabel;
+	//shared_ptr<Sprite> shield_spaceship_sprite;
 
 	uint mLevel;
 	uint mAsteroidCount;
@@ -64,11 +68,13 @@ private:
 
 	void ResetSpaceship();
 	shared_ptr<GameObject> CreateSpaceship();
+	shared_ptr<GameObject> CreateShieldSpaceship();
 	void CreateLifePopUpGUI();
 	void CreateGUI();
 	void CreateStartGUI();
 	void CreateAsteroids(const uint num_asteroids);
 	void CreateLife(const uint num_life);
+	void CreateShield(const uint num_life);
 	bool CollisionTest(shared_ptr<GameObject> o);
 	shared_ptr<GameObject> CreateExplosion();
 	

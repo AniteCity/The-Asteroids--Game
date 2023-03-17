@@ -12,6 +12,7 @@
 #include "GUILabel.h"
 #include "Explosion.h"
 #include "Life.h"
+#include "Shield.h"
 
 // PUBLIC INSTANCE CONSTRUCTORS ///////////////////////////////////////////////
 
@@ -72,12 +73,15 @@ void Asteroids::Start()
 	Animation *explosion_anim = AnimationManager::GetInstance().CreateAnimationFromFile("explosion", 64, 1024, 64, 64, "explosion_fs.png");
 	Animation *asteroid1_anim = AnimationManager::GetInstance().CreateAnimationFromFile("asteroid1", 128, 8192, 128, 128, "asteroid1_fs.png");
 	Animation *spaceship_anim = AnimationManager::GetInstance().CreateAnimationFromFile("spaceship", 128, 128, 128, 128, "spaceship_fs.png");
+	Animation *spaceship_shield_anim = AnimationManager::GetInstance().CreateAnimationFromFile("spaceship_with_shield", 128, 128, 128, 128, "download.png");
 	
 		// Create a spaceship and add it to the world
 		mGameWorld->AddObject(CreateSpaceship());
 		// Create some asteroids and add them to the world
 		CreateAsteroids(3);
-		CreateLife(3);
+		//CreateLife(3);
+		// 
+		CreateShield(5);
 		//Create the GUI
 		CreateGUI();
 		 
@@ -132,18 +136,18 @@ void Asteroids::OnSpecialKeyPressed(int key, int x, int y)
 	// If up arrow key is pressed start applying forward thrust
 	case GLUT_KEY_UP:
 		
-		SetTimer(1000, HIDE_LIFE_POP_UP); 
+		SetTimer(3000, HIDE_LIFE_POP_UP); 
 		mSpaceship->Thrust(10); break;
 
 	// If left arrow key is pressed start rotating anti-clockwise
 	case GLUT_KEY_LEFT:
 
-		SetTimer(1000, HIDE_LIFE_POP_UP);
+		SetTimer(3000, HIDE_LIFE_POP_UP);
 		mSpaceship->Rotate(90); break;
 	// If right arrow key is pressed start rotating clockwise
 	case GLUT_KEY_RIGHT: 
 
-		SetTimer(1000, HIDE_LIFE_POP_UP);
+		SetTimer(3000, HIDE_LIFE_POP_UP);
 		mSpaceship->Rotate(-90); break;
 	// Default case - do nothing
 	default: ; break;
@@ -192,8 +196,28 @@ void Asteroids::OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object)
 		SetTimer(100, SHOW_LIFE_POP_UP);
 		
 	 
+	}if (object->GetType() == GameObjectType("Shield"))
+	{
+		shared_ptr<GameObject> explosion = CreateExplosion();
+		explosion->SetPosition(object->GetPosition());
+		explosion->SetRotation(object->GetRotation());
+		mGameWorld->AddObject(explosion);
+
+		Animation* shieldanim_ptr = AnimationManager::GetInstance().GetAnimationByName("spaceship_with_shield");
+		shared_ptr<Sprite> shield_spaceship_sprite =
+			make_shared<Sprite>(shieldanim_ptr->GetWidth(), shieldanim_ptr->GetHeight(), shieldanim_ptr);
+
+		mSpaceship->SetSprite(shield_spaceship_sprite);
+		mSpaceship->SetScale(0.11f);
+		
+	 
 	}
 }
+
+void Asteroids::SpaceShipSprite() {
+	
+}
+
 
 // PUBLIC INSTANCE METHODS IMPLEMENTING ITimerListener ////////////////////////
 
@@ -201,6 +225,12 @@ void Asteroids::OnTimer(int value)
 {
 	if (value == CREATE_NEW_PLAYER)
 	{
+		
+		Animation* shieldanim_ptr = AnimationManager::GetInstance().GetAnimationByName("spaceship");
+		shared_ptr<Sprite> shield_spaceship_sprite =
+			make_shared<Sprite>(shieldanim_ptr->GetWidth(), shieldanim_ptr->GetHeight(), shieldanim_ptr);
+		mSpaceship->SetScale(0.1f);
+		mSpaceship->SetSprite(shield_spaceship_sprite);
 		mSpaceship->Reset();
 		mGameWorld->AddObject(mSpaceship);
 	}
@@ -236,9 +266,13 @@ shared_ptr<GameObject> Asteroids::CreateSpaceship()
 	mSpaceship->SetBoundingShape(make_shared<BoundingSphere>(mSpaceship->GetThisPtr(), 4.0f));
 	shared_ptr<Shape> bullet_shape = make_shared<Shape>("bullet.shape");
 	mSpaceship->SetBulletShape(bullet_shape);
+
 	Animation *anim_ptr = AnimationManager::GetInstance().GetAnimationByName("spaceship");
 	shared_ptr<Sprite> spaceship_sprite =
 		make_shared<Sprite>(anim_ptr->GetWidth(), anim_ptr->GetHeight(), anim_ptr);
+
+	
+	
 	mSpaceship->SetSprite(spaceship_sprite);
 	mSpaceship->SetScale(0.1f);
 	// Reset spaceship back to centre of the world
@@ -401,5 +435,16 @@ void Asteroids::CreateLife(const uint num_life)
 		life->SetBoundingShape(make_shared<BoundingSphere>(life->GetThisPtr(), 10.0f));
 
 		mGameWorld->AddObject(life);
+	}
+}
+
+
+void Asteroids::CreateShield(const uint num_life)
+{
+	for (uint i = 0; i < num_life; i++) {
+		shared_ptr<GameObject> shield = make_shared<Shield>();
+		shield->SetBoundingShape(make_shared<BoundingSphere		>(shield->GetThisPtr(), 10.0f));
+
+		mGameWorld->AddObject(shield);
 	}
 }

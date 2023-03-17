@@ -21,8 +21,17 @@ public:
 	void OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object)
 	{
 		if (object->GetType() == GameObjectType("Spaceship")) {
+			if(object->GetScale() == 0.1f){
+
 			mLives -= 1;
 			FirePlayerKilled();
+			}
+			else if (object->GetScale() == 0.11f) {
+
+				mLives = mLives;
+				FirePlayerKilled();
+
+			}
 		}
 		else if (object->GetType() == GameObjectType("Life")) {
 			mLives += 1;

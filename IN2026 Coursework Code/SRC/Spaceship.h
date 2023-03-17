@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Asteroid.h"
 #include "Shape.h"
+#include "Shield.h"
 
 class Spaceship : public GameObject
 {
@@ -31,6 +32,8 @@ public:
 	void OnCollisionWithAsteroid(Asteroid& asteroid);
 
 	void OnCollisionWithLife(Life& life);
+
+	void OnCollisionWithShield(Shield& shield);
 
 private:
 	float mThrust;
