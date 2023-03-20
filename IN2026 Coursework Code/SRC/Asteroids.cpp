@@ -13,6 +13,13 @@
 #include "Explosion.h"
 #include "Life.h"
 #include "Shield.h"
+#include "Alien.h"
+#include <chrono>
+
+std::chrono::steady_clock::time_point lastAlienShootTime = std::chrono::steady_clock::now();
+
+
+
 
 // PUBLIC INSTANCE CONSTRUCTORS ///////////////////////////////////////////////
 
@@ -23,6 +30,7 @@ Asteroids::Asteroids(int argc, char *argv[])
 	mLevel = 0;
 	mAsteroidCount = 0;
 	mStartBoolean = false;
+	mX = 0;
 	
 }
 
@@ -74,14 +82,18 @@ void Asteroids::Start()
 	Animation *asteroid1_anim = AnimationManager::GetInstance().CreateAnimationFromFile("asteroid1", 128, 8192, 128, 128, "asteroid1_fs.png");
 	Animation *spaceship_anim = AnimationManager::GetInstance().CreateAnimationFromFile("spaceship", 128, 128, 128, 128, "spaceship_fs.png");
 	Animation *spaceship_shield_anim = AnimationManager::GetInstance().CreateAnimationFromFile("spaceship_with_shield", 128, 128, 128, 128, "download.png");
+	Animation *alien_spaceshipanim = AnimationManager::GetInstance().CreateAnimationFromFile("alien", 128, 128, 128, 128, "enemy_fs.png");
 	
 		// Create a spaceship and add it to the world
 		mGameWorld->AddObject(CreateSpaceship());
 		// Create some asteroids and add them to the world
-		CreateAsteroids(3);
+	//	CreateAsteroids(3);
 		//CreateLife(3);
 		// 
-		CreateShield(5);
+		//CreateShield(5);
+		
+		mGameWorld->AddObject(CreateAlien());
+		SetTimer(500, ALIEN_SHOOT);
 		//Create the GUI
 		CreateGUI();
 		 
@@ -95,6 +107,11 @@ void Asteroids::Start()
 
 	// Start the game
 	GameSession::Start();
+
+
+	 
+	
+		 
 }
 
 /** Stop the current game. */
@@ -104,6 +121,10 @@ void Asteroids::Stop()
 	GameSession::Stop();
 }
 
+
+ 
+
+
 // PUBLIC INSTANCE METHODS IMPLEMENTING IKeyboardListener /////////////////////
 
 void Asteroids::OnKeyPressed(uchar key, int x, int y)
@@ -112,6 +133,10 @@ void Asteroids::OnKeyPressed(uchar key, int x, int y)
 	{
 	case ' ':
 		mSpaceship->Shoot();
+		
+		
+		
+		
 		break;
 	case 'p':
 		mGameStartLabel->SetVisible(false);
@@ -134,21 +159,56 @@ void Asteroids::OnSpecialKeyPressed(int key, int x, int y)
 	switch (key)
 	{
 	// If up arrow key is pressed start applying forward thrust
+		 
 	case GLUT_KEY_UP:
-		
-		SetTimer(3000, HIDE_LIFE_POP_UP); 
-		mSpaceship->Thrust(10); break;
 
+
+		storeAlien->SetAngle(atan2(mSpaceship->GetPosition().y - storeAlien->GetPosition().y, mSpaceship->GetPosition().x - storeAlien->GetPosition().x) * (180 / M_PI)); // Convert from radians to degrees
+
+				// Set the alien ship's angle, acceleration, and thrust
+				;
+				storeAlien->SetAcceleration(mSpaceship->GetAcceleration() * 0.5f);
+		 
+				// Shoot multiple times when mSpaceship shoots once
+				
+		
+
+			SetTimer(3000, HIDE_LIFE_POP_UP);
+			mSpaceship->Thrust(10);
+			
+		break;
+	case GLUT_KEY_DOWN:
+		storeAlien->SetAngle(atan2(mSpaceship->GetPosition().y - storeAlien->GetPosition().y, mSpaceship->GetPosition().x - storeAlien->GetPosition().x) * (180 / M_PI)); // Convert from radians to degrees
+
+		mSpaceship->Thrust(-10); break;
+		break;
 	// If left arrow key is pressed start rotating anti-clockwise
 	case GLUT_KEY_LEFT:
 
-		SetTimer(3000, HIDE_LIFE_POP_UP);
-		mSpaceship->Rotate(90); break;
-	// If right arrow key is pressed start rotating clockwise
-	case GLUT_KEY_RIGHT: 
+		
+		
+		storeAlien->SetAngle(atan2(mSpaceship->GetPosition().y - storeAlien->GetPosition().y, mSpaceship->GetPosition().x - storeAlien->GetPosition().x) * (180 / M_PI)); // Convert from radians to degrees
+
+		storeAlien->SetRotation(mSpaceship->GetRotation());
 
 		SetTimer(3000, HIDE_LIFE_POP_UP);
-		mSpaceship->Rotate(-90); break;
+		mSpaceship->Rotate(90); 
+		
+		break;
+	// If right arrow key is pressed start rotating clockwise
+	case GLUT_KEY_RIGHT: 
+		storeAlien->SetRotation(mSpaceship->GetRotation());
+		storeAlien->SetAngle(atan2(mSpaceship->GetPosition().y - storeAlien->GetPosition().y, mSpaceship->GetPosition().x - storeAlien->GetPosition().x) * (180 / M_PI)); // Convert from radians to degrees
+
+		SetTimer(3000, HIDE_LIFE_POP_UP);
+		mSpaceship->Rotate(-90);
+		
+	 
+
+
+		break;
+
+
 	// Default case - do nothing
 	default: ; break;
 	}
@@ -159,11 +219,33 @@ void Asteroids::OnSpecialKeyReleased(int key, int x, int y)
 	switch (key)
 	{
 	// If up arrow key is released stop applying forward thrust
-	case GLUT_KEY_UP: mSpaceship->Thrust(0); break;
+	case GLUT_KEY_UP: 
+		mSpaceship->Thrust(0); 
+		 
+		 
+		storeAlien->SetAcceleration(0.0f);
+		storeAlien->SetRotation(0);
+	 
+		
+		
+		break;
+	case GLUT_KEY_DOWN:
+		
+
+		mSpaceship->Thrust(0); break;
+		break;
 	// If left arrow key is released stop rotating
-	case GLUT_KEY_LEFT: mSpaceship->Rotate(0); break;
+	case GLUT_KEY_LEFT:
+		mSpaceship->Rotate(0); 
+		SetTimer(500, ALIEN_STOP_SHOOT);
+
+		break;
 	// If right arrow key is released stop rotating
-	case GLUT_KEY_RIGHT: mSpaceship->Rotate(0); break;
+	case GLUT_KEY_RIGHT:
+		SetTimer(500, ALIEN_STOP_SHOOT);
+
+		mSpaceship->Rotate(0);
+	 
 	// Default case - do nothing
 	default: break;
 	} 
@@ -185,6 +267,13 @@ void Asteroids::OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object)
 		{ 
 			SetTimer(500, START_NEXT_LEVEL); 
 		}
+	}if (object->GetType() == GameObjectType("Alien"))
+	{
+		shared_ptr<GameObject> explosion = CreateExplosion();
+		explosion->SetPosition(object->GetPosition());
+		explosion->SetRotation(object->GetRotation());
+		mGameWorld->AddObject(explosion);
+
 	}if (object->GetType() == GameObjectType("Life"))
 	{
 		shared_ptr<GameObject> explosion = CreateExplosion();
@@ -254,6 +343,23 @@ void Asteroids::OnTimer(int value)
 	{
 		mLivesPopUpLabel->SetVisible(false);
 	}
+	if (value == ALIEN_SHOOT)
+	{
+		SetTimer(2500, ALIEN_SHOOT);
+		
+		storeAlien->Shoot();
+		
+
+		
+	}
+	if (value == ALIEN_STOP_SHOOT)
+	{
+	
+		SetTimer(3000, ALIEN_STOP_SHOOT);
+
+
+	}
+ 
 
 }
 
@@ -413,6 +519,7 @@ void Asteroids::OnPlayerLifeKilled(int lives_left)
 
 }
 
+
 shared_ptr<GameObject> Asteroids::CreateExplosion()
 {
 	Animation *anim_ptr = AnimationManager::GetInstance().GetAnimationByName("explosion");
@@ -448,3 +555,29 @@ void Asteroids::CreateShield(const uint num_life)
 		mGameWorld->AddObject(shield);
 	}
 }
+ shared_ptr<GameObject> Asteroids::CreateAlien()
+{
+	 shared_ptr<Alien> alien = make_shared<Alien>();
+
+	alien->SetBoundingShape(make_shared<BoundingSphere>(alien->GetThisPtr(), 4.0f));
+	shared_ptr<Shape> bullet_shape = make_shared<Shape>("bullet.shape");
+	alien->SetBulletShape(bullet_shape);
+
+
+	alien->SetBoundingShape(make_shared<BoundingSphere>(alien->GetThisPtr(), 5.0f));
+
+
+	Animation* anim_ptr = AnimationManager::GetInstance().GetAnimationByName("alien");
+	shared_ptr<Sprite> spaceship_sprite =
+		make_shared<Sprite>(anim_ptr->GetWidth(), anim_ptr->GetHeight(), anim_ptr);
+
+	alien->SetSprite(spaceship_sprite);
+	alien->SetScale(0.1f);
+
+	//mGameWorld->AddObject(alien);
+
+	storeAlien = alien;
+	return alien;
+}
+
+ 

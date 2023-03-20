@@ -13,6 +13,7 @@
 class GameObject;
 class Spaceship;
 class GUILabel;
+class Alien;
 
 class Asteroids : public GameSession, public IKeyboardListener, public IGameWorldListener, public IScoreListener, public IPlayerListener
 {
@@ -28,6 +29,7 @@ public:
 	void OnKeyPressed(uchar key, int x, int y);
 	void OnKeyReleased(uchar key, int x, int y);
 	void OnSpecialKeyPressed(int key, int x, int y);
+	void RandomMovement();
 	void OnSpecialKeyReleased(int key, int x, int y);
 
 	// Declaration of IScoreListener interface //////////////////////////////////
@@ -54,6 +56,10 @@ public:
 private:
 	shared_ptr<Spaceship> mSpaceship;
 	shared_ptr<Spaceship> mShieldSpaceship;
+	//shared_ptr<Alien> Alien;
+
+	shared_ptr<Alien> storeAlien;
+	shared_ptr<GameObject> alien;
 	shared_ptr<GUILabel> mScoreLabel;
 	shared_ptr<GUILabel> mGameStartLabel;
 	shared_ptr<GUILabel> mLivesLabel;
@@ -65,6 +71,7 @@ private:
 	uint mAsteroidCount;
 	uint mStartBoolean;
 	uint mStartTrigger;
+	uint mX;
 
 	void ResetSpaceship();
 	shared_ptr<GameObject> CreateSpaceship();
@@ -75,6 +82,8 @@ private:
 	void CreateAsteroids(const uint num_asteroids);
 	void CreateLife(const uint num_life);
 	void CreateShield(const uint num_life);
+	shared_ptr<GameObject> CreateAlien();
+	
 	bool CollisionTest(shared_ptr<GameObject> o);
 	shared_ptr<GameObject> CreateExplosion();
 	
@@ -83,6 +92,8 @@ private:
 	const static uint CREATE_NEW_PLAYER = 2;
 	const static uint SHOW_LIFE_POP_UP = 3;
 	const static uint HIDE_LIFE_POP_UP = 4;
+	const static uint ALIEN_SHOOT = 5;
+	const static uint ALIEN_STOP_SHOOT = 6;
 
 	ScoreKeeper mScoreKeeper;
 	Player mPlayer;
