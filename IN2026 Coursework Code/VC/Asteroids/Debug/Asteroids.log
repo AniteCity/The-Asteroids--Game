@@ -1,18 +1,12 @@
 ﻿cl : linha de comando  warning D9035: opção 'Gm' foi preterida e será removida em uma versão futura
-  Asteroids.cpp
-C:\Users\anite\Downloads\games tech tast 2\task3 novo\src\Asteroids.cpp(144,24): warning C4805: '==': mistura não segura de tipo 'uint' e tipo 'bool' em operação
-Alien.obj : warning LNK4075: ignorando '/EDITANDCONTINUE' devido a especificação '/SAFESEH'
-  Asteroids.vcxproj -> C:\Users\anite\Downloads\games tech tast 2\task3 novo\bin\Asteroids.exe
-  ..\..\assets\asteroid.shape
-  ..\..\assets\asteroid1_fs.png
-  ..\..\assets\bullet.shape
-  ..\..\assets\download.png
-  ..\..\assets\enemy_fs.png
-  ..\..\assets\enemy_fs.shape
-  ..\..\assets\explosion_fs.png
-  ..\..\assets\spaceship.shape
-  ..\..\assets\spaceship_fs.png
-  ..\..\assets\spaceship_fs_shield.png
-  ..\..\assets\spaceship_with_shield.shape
-  ..\..\assets\thruster.shape
-         12 file(s) copied.
+  main.cpp
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\main.cpp(22,12): error C2259: 'Asteroids': não é possível instanciar a classe abstrata
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\Asteroids.h(18,7): message : consulte a declaração de 'Asteroids'
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\main.cpp(22,12): message : devido aos seguintes membros:
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\main.cpp(22,12): message : 'void IPlayerListener::isTimeToShoot(void)': é abstrato
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\IPlayerListener.h(9,15): message : consulte a declaração de 'IPlayerListener::isTimeToShoot'
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\main.cpp(22,21): error C2259: 'Asteroids': não é possível instanciar a classe abstrata
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\Asteroids.h(18,7): message : consulte a declaração de 'Asteroids'
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\main.cpp(22,21): message : devido aos seguintes membros:
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\main.cpp(22,21): message : 'void IPlayerListener::isTimeToShoot(void)': é abstrato
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code\src\IPlayerListener.h(9,15): message : consulte a declaração de 'IPlayerListener::isTimeToShoot'
