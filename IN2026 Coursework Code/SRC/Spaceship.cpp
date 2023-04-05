@@ -5,7 +5,6 @@
 #include "BoundingSphere.h"
 #include "Life.h"
 #include "Asteroid.h"
-#include "Shield.h"
 
 using namespace std;
 
@@ -41,7 +40,6 @@ void Spaceship::Update(int t)
 {
 	// Call parent update function
 	GameObject::Update(t);
-
 }
 
 /** Render this spaceship. */
@@ -62,8 +60,8 @@ void Spaceship::Thrust(float t)
 {
 	mThrust = t;
 	// Increase acceleration in the direction of ship
-	mAcceleration.x = mThrust*cos(DEG2RAD*mAngle);
-	mAcceleration.y = mThrust*sin(DEG2RAD*mAngle);
+	mAcceleration.x = mThrust * cos(DEG2RAD * mAngle);
+	mAcceleration.y = mThrust * sin(DEG2RAD * mAngle);
 }
 
 /** Set the rotation. */
@@ -78,7 +76,7 @@ void Spaceship::Shoot(void)
 	// Check the world exists
 	if (!mWorld) return;
 	// Construct a unit length vector in the direction the spaceship is headed
-	GLVector3f spaceship_heading(cos(DEG2RAD*mAngle), sin(DEG2RAD*mAngle), 0);
+	GLVector3f spaceship_heading(cos(DEG2RAD * mAngle), sin(DEG2RAD * mAngle), 0);
 	spaceship_heading.normalize();
 	// Calculate the point at the node of the spaceship from position and heading
 	GLVector3f bullet_position = mPosition + (spaceship_heading * 4);
@@ -88,7 +86,7 @@ void Spaceship::Shoot(void)
 	GLVector3f bullet_velocity = mVelocity + spaceship_heading * bullet_speed;
 	// Construct a new bullet
 	shared_ptr<GameObject> bullet
-		(new Bullet(bullet_position, bullet_velocity, mAcceleration, mAngle, 0, 2000));
+	(new Bullet(bullet_position, bullet_velocity, mAcceleration, mAngle, 0, 2000));
 	bullet->SetBoundingShape(make_shared<BoundingSphere>(bullet->GetThisPtr(), 2.0f));
 	bullet->SetShape(mBulletShape);
 	// Add the new bullet to the game world
@@ -116,9 +114,6 @@ void Spaceship::OnCollision(const GameObjectList& objects)
 		else if (auto life = dynamic_cast<Life*>(object.get()))
 		{
 			OnCollisionWithLife(*life);
-		}else if (auto shield = dynamic_cast<Shield*>(object.get()))
-		{
-			OnCollisionWithShield(*shield);
 		}
 		// add other cases for other types of game objects as needed
 	}
@@ -127,8 +122,8 @@ void Spaceship::OnCollision(const GameObjectList& objects)
 void Spaceship::OnCollisionWithAsteroid(Asteroid& asteroid)
 {
 	// handle collision with another asteroid
- mWorld->FlagForRemoval(GetThisPtr());
- mWorld->FlagForRemoval(asteroid.GetThisPtr());
+	mWorld->FlagForRemoval(GetThisPtr());
+	mWorld->FlagForRemoval(asteroid.GetThisPtr());
 
 
 }
@@ -137,11 +132,5 @@ void Spaceship::OnCollisionWithLife(Life& life)
 {
 	// handle collision with a life object
  //mWorld->FlagForRemoval(GetThisPtr());
- mWorld->FlagForRemoval(life.GetThisPtr());
-}
-void Spaceship::OnCollisionWithShield(Shield& shield)
-{
-	// handle collision with a life object
- //mWorld->FlagForRemoval(GetThisPtr());
- mWorld->FlagForRemoval(shield.GetThisPtr());
+	mWorld->FlagForRemoval(life.GetThisPtr());
 }

@@ -123,10 +123,12 @@
     <ClInclude Include="..\..\SRC\Explosion.h" />
     <ClInclude Include="..\..\SRC\IPlayerListener.h" />
     <ClInclude Include="..\..\SRC\IScoreListener.h" />
+    <ClInclude Include="..\..\SRC\IShieldListener.h" />
     <ClInclude Include="..\..\SRC\Life.h" />
     <ClInclude Include="..\..\SRC\Player.h" />
     <ClInclude Include="..\..\SRC\ScoreKeeper.h" />
     <ClInclude Include="..\..\SRC\Shield.h" />
+    <ClInclude Include="..\..\SRC\ShieldKeeper.h" />
     <ClInclude Include="..\..\src\Spaceship.h" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,6 @@
 #include "GameObject.h"
 #include "Asteroid.h"
 #include "Shape.h"
-#include "Shield.h"
 
 class Spaceship : public GameObject
 {
@@ -27,13 +26,11 @@ public:
 	void SetBulletShape(shared_ptr<Shape> bullet_shape) { mBulletShape = bullet_shape; }
 
 	bool CollisionTest(shared_ptr<GameObject> o);
-	void OnCollision(const GameObjectList &objects);
+	void OnCollision(const GameObjectList& objects);
 
 	void OnCollisionWithAsteroid(Asteroid& asteroid);
 
 	void OnCollisionWithLife(Life& life);
-
-	void OnCollisionWithShield(Shield& shield);
 
 private:
 	float mThrust;

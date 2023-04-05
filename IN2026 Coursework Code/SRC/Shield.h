@@ -20,6 +20,10 @@ public:
 
 
 	void OnCollisionWithBullet(Bullet& bullet);
+
+private:
+
+	shared_ptr<Shape> mShieldShape;
 };
 
 #endif

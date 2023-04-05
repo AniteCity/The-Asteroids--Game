@@ -11,7 +11,7 @@ class BulletAlien : public GameObject
 public:
 	BulletAlien();
 	BulletAlien(GLVector3f p, GLVector3f v, GLVector3f a, GLfloat h, GLfloat r, int ttl);
-	
+
 	BulletAlien(const BulletAlien& b);
 	virtual ~BulletAlien(void);
 
@@ -23,12 +23,12 @@ public:
 	bool CollisionTest(shared_ptr<GameObject> o);
 	void OnCollision(const GameObjectList& objects);
 
-	
+
 	void OnCollisionWithSpaceship(Spaceship& spaceship);
 
 
 protected:
 	int mTimeToLive;
- };
+};
 
 #endif

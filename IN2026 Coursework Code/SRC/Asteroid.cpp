@@ -2,9 +2,6 @@
 #include "GameUtil.h"
 #include "Asteroid.h"
 #include "BoundingShape.h"
-#include "Life.h"
-#include "Spaceship.h"
-#include "Bullet.h"
 
 Asteroid::Asteroid(void) : GameObject("Asteroid")
 {
@@ -13,8 +10,8 @@ Asteroid::Asteroid(void) : GameObject("Asteroid")
 	mPosition.x = rand() / 2;
 	mPosition.y = rand() / 2;
 	mPosition.z = 0.0;
-	mVelocity.x = 10.0 * cos(DEG2RAD*mAngle);
-	mVelocity.y = 10.0 * sin(DEG2RAD*mAngle);
+	mVelocity.x = 10.0 * cos(DEG2RAD * mAngle);
+	mVelocity.y = 10.0 * sin(DEG2RAD * mAngle);
 	mVelocity.z = 0.0;
 }
 
@@ -24,7 +21,7 @@ Asteroid::~Asteroid(void)
 
 bool Asteroid::CollisionTest(shared_ptr<GameObject> o)
 {
-	 
+
 	if (GetType() == o->GetType()) return false;
 	if (mBoundingShape.get() == NULL) return false;
 	if (o->GetBoundingShape().get() == NULL) return false;
@@ -35,30 +32,30 @@ void Asteroid::OnCollision(const GameObjectList& objects)
 {
 	for (auto& object : objects)
 	{
-		 
-		  if (auto life = dynamic_cast<Life*>(object.get()))
+
+		if (auto life = dynamic_cast<Life*>(object.get()))
 		{
 			OnCollisionWithLife(*life);
 		}
-		  else if (auto bullet = dynamic_cast<Bullet*>(object.get()))
-		  {
-			  OnCollisionWithBullet(*bullet);
-		  }
-		 
+		else if (auto bullet = dynamic_cast<Bullet*>(object.get()))
+		{
+			OnCollisionWithBullet(*bullet);
+		}
+
 		// add other cases for other types of game objects as needed
 	}
 }
 
-  
+
 void Asteroid::OnCollisionWithLife(Life& life)
 {
 	// handle collision with a life object
 	//mWorld->FlagForRemoval(GetThisPtr());
 }
- 
+
 void Asteroid::OnCollisionWithBullet(Bullet& bullet)
 {
 	// handle collision with a life object
-	 mWorld->FlagForRemoval(GetThisPtr());
+	mWorld->FlagForRemoval(GetThisPtr());
 }
- 
+

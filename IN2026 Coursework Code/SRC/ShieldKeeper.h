@@ -16,17 +16,17 @@ public:
 	{
 		if (object->GetType() == GameObjectType("Shield")) {
 			mShield = true;
-			FireScoreChanged();
+			FireShieldChanged();
 		}if (object->GetType() == GameObjectType("Spaceship")) {
 			mShield = false;
-			FireScoreChanged();
+			FireShieldChanged();
 		}
 	}
 	void AddListener(shared_ptr<IShieldListener> listener)
 	{
 		mListeners.push_back(listener);
 	}
-	void FireScoreChanged()
+	void FireShieldChanged()
 	{
 		// Send message to all listeners
 		for (ShieldListenerList::iterator lit = mListeners.begin();

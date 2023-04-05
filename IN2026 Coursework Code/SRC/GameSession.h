@@ -20,6 +20,7 @@ public:
 
 protected:
 	GameWorld* mGameWorld;
+	GameWorld* mGameStartScreen;
 	GameDisplay* mGameDisplay;
 	GameWindow* mGameWindow;
 

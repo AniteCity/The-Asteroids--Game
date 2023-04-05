@@ -94,30 +94,32 @@ void Alien::OnCollision(const GameObjectList& objects)
 {
 	for (auto& object : objects)
 	{
-		 
+
 		if (auto spaceship = dynamic_cast<Spaceship*>(object.get()))
 		{
 			OnCollisionWithSpaceship(*spaceship);
-		}else if (auto bullet = dynamic_cast<Bullet*>(object.get()))
+		}
+		else if (auto bullet = dynamic_cast<Bullet*>(object.get()))
 		{
 			OnCollisionWithBullet(*bullet);
 		}
-		// add other cases for other types of game objects as needed
+		 
 	}
 }
 
-
+//Check collision for spaceship
 void Alien::OnCollisionWithSpaceship(Spaceship& Spaceship)
 {
-	 
+
 	//mWorld->FlagForRemoval(GetThisPtr());
 	mWorld->FlagForRemoval(Spaceship.GetThisPtr());
-	
+
 }
+//Check collision for normal bullet
 
 void Alien::OnCollisionWithBullet(Bullet& bullet)
 {
-	// handle collision with a life object
+	// handle collision with a bullet object
 	mWorld->FlagForRemoval(GetThisPtr());
 	mWorld->FlagForRemoval(bullet.GetThisPtr());
 

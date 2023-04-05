@@ -8,13 +8,14 @@
 // PUBLIC INSTANCE CONSTRUCTORS ///////////////////////////////////////////////
 
 /** Construct new game session with given command line arguments. */
-GameSession::GameSession(int argc, char *argv[])
+GameSession::GameSession(int argc, char* argv[])
 {
+	mGameStartScreen = new GameWorld();
 	mGameWorld = new GameWorld();
 	mGameDisplay = new GameDisplay(400, 400);
 	mGameWindow = new GameWindow(400, 400, -1, -1, "GameWindow");
 	mGameWindow->SetDisplay(mGameDisplay);
-	mGameWindow->SetWorld(mGameWorld);
+	mGameWindow->SetWorld(mGameStartScreen);
 	// Set the window for this session
 	GlutSession::GetInstance().SetWindow(mGameWindow);
 }
@@ -24,9 +25,9 @@ GameSession::~GameSession()
 {
 	delete mGameWindow;
 	delete mGameDisplay;
+	delete mGameStartScreen;
 	delete mGameWorld;
 }
-
 // PUBLIC INSTANCE METHODS ////////////////////////////////////////////////////
 
 /** Start the game. */

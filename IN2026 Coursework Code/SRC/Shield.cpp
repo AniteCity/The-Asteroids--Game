@@ -22,27 +22,16 @@ Shield::~Shield(void)
 }
 void Shield::Render(void)
 {
-	// Disable lighting for solid colour lines
-	glDisable(GL_LIGHTING);
-	// Start drawing lines
-	glBegin(GL_LINE_LOOP);
-	// Set colour to grey
-	glColor3f(0.6, 0.6, 0.6);
-	// Add vertices to draw an octagon
-	glVertex3f(-7, -7, 0.0);
-	glVertex3f(-10, 0, 0.0);
-	glVertex3f(-7, 7, 0.0);
-	glVertex3f(0, 10, 0.0);
-	glVertex3f(7, 7, 0.0);
-	glVertex3f(10, 0, 0.0);
-	glVertex3f(7, -7, 0.0);
-	glVertex3f(0, -10, 0.0);
-	// Finish drawing lines
-	glEnd();
-	// Enable lighting
-	glEnable(GL_LIGHTING);
-}
 
+	if (mShieldShape.get() != NULL)
+		mShieldShape->Render();
+
+
+
+	GameObject::Render();
+
+
+}
 
 bool Shield::CollisionTest(shared_ptr<GameObject> o)
 {
@@ -58,13 +47,12 @@ void Shield::OnCollision(const GameObjectList& objects)
 {
 	for (auto& object : objects)
 	{
-
+		//Check if the object colliding is a bullet
 		if (auto bullet = dynamic_cast<Bullet*>(object.get()))
 		{
 			OnCollisionWithBullet(*bullet);
 		}
 
-		// add other cases for other types of game objects as needed
 	}
 }
 
@@ -72,7 +60,7 @@ void Shield::OnCollision(const GameObjectList& objects)
 
 void Shield::OnCollisionWithBullet(Bullet& bullet)
 {
-	// handle collision with a life object
+	// handle collision with a bullet object
 	mWorld->FlagForRemoval(GetThisPtr());
 	mWorld->FlagForRemoval(bullet.GetThisPtr());
 

@@ -1,0 +1,21 @@
+﻿cl : linha de comando  warning D9035: opção 'Gm' foi preterida e será removida em uma versão futura
+  Spaceship.cpp
+  Shield.cpp
+  main.cpp
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\main.cpp(22,12): error C2259: 'Asteroids': não é possível instanciar a classe abstrata
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\Asteroids.h(22,7): message : consulte a declaração de 'Asteroids'
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\main.cpp(22,12): message : devido aos seguintes membros:
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\main.cpp(22,12): message : 'void IPlayerListener::isTimeToShoot(void)': é abstrato
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\IPlayerListener.h(9,15): message : consulte a declaração de 'IPlayerListener::isTimeToShoot'
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\main.cpp(22,21): error C2259: 'Asteroids': não é possível instanciar a classe abstrata
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\Asteroids.h(22,7): message : consulte a declaração de 'Asteroids'
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\main.cpp(22,21): message : devido aos seguintes membros:
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\main.cpp(22,21): message : 'void IPlayerListener::isTimeToShoot(void)': é abstrato
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\IPlayerListener.h(9,15): message : consulte a declaração de 'IPlayerListener::isTimeToShoot'
+  Life.cpp
+  Explosion.cpp
+  Bullet.cpp
+  Asteroids.cpp
+C:\Users\anite\Documents\GitHub\IN2026-Games-Technology\IN2026 Coursework Code  - Final Submission\src\Asteroids.cpp(133,24): warning C4805: '==': mistura não segura de tipo 'uint' e tipo 'bool' em operação
+  Asteroid.cpp
+  Gerando Código...

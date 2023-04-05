@@ -19,7 +19,7 @@ Bullet::Bullet(GLVector3f p, GLVector3f v, GLVector3f a, GLfloat h, GLfloat r, i
 /** Copy constructor. */
 Bullet::Bullet(const Bullet& b)
 	: GameObject(b),
-	  mTimeToLive(b.mTimeToLive)
+	mTimeToLive(b.mTimeToLive)
 {
 }
 

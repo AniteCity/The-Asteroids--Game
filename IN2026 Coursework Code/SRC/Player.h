@@ -20,45 +20,51 @@ public:
 
 	void OnObjectRemoved(GameWorld* world, shared_ptr<GameObject> object)
 	{
+		//If its a spaceship
 		if (object->GetType() == GameObjectType("Spaceship")) {
-			if(object->GetScale() == 0.1f){
+			//Check if its a normal spaceship
+			if (object->GetScale() == 0.1f) {
 
-			mLives -= 1;
-			FirePlayerKilled();
+				mLives -= 1;
+				PlayerKilled();
 			}
+			//Check if its a spaceship with a shield
 			else if (object->GetScale() == 0.11f) {
 
 				mLives = mLives;
-				FirePlayerKilled();
+				PlayerKilled();
 
 			}
-		}
+		}//Check if the object is life.
 		else if (object->GetType() == GameObjectType("Life")) {
 			mLives += 1;
-			FirePlayerLIFE();
+			PlayerKillLife();
+
 
 		}
 	}
-
 	void AddListener(shared_ptr<IPlayerListener> listener)
 	{
 		mListeners.push_back(listener);
 	}
 
-	void FirePlayerKilled()
-	{
-		// Send message to all listeners
-		for (PlayerListenerList::iterator lit = mListeners.begin();
-			lit != mListeners.end(); ++lit) {
-			(*lit)->OnPlayerKilled(mLives);
-		}
-	}
-		void FirePlayerLIFE()
+
+
+	void PlayerKillLife()
 	{
 		// Send message to all listeners
 		for (PlayerListenerList::iterator lit = mListeners.begin();
 			lit != mListeners.end(); ++lit) {
 			(*lit)->OnPlayerLifeKilled(mLives);
+		}
+	}
+
+	void PlayerKilled()
+	{
+		// Send message to all listeners
+		for (PlayerListenerList::iterator lit = mListeners.begin();
+			lit != mListeners.end(); ++lit) {
+			(*lit)->OnPlayerKilled(mLives);
 		}
 	}
 

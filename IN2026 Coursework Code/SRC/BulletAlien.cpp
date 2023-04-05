@@ -2,7 +2,7 @@
 #include "BulletAlien.h"
 #include "BoundingSphere.h"
 #include "Spaceship.h"
- 
+
 
 // PUBLIC INSTANCE CONSTRUCTORS ///////////////////////////////////////////////
 
@@ -15,7 +15,7 @@ BulletAlien::BulletAlien()
 /** Construct a new bullet with given position, velocity, acceleration, angle, rotation and lifespan. */
 BulletAlien::BulletAlien(GLVector3f p, GLVector3f v, GLVector3f a, GLfloat h, GLfloat r, int ttl)
 	: GameObject("BulletAlien", p, v, a, h, r), mTimeToLive(ttl)
-{ 
+{
 }
 
 
